@@ -6,10 +6,10 @@ import functools
 @functools.cache
 def calc_growth( fish_timer: int, days_to_end: int ) -> int:
     # not enough time to reproduce
-    if days_to_end < fish_timer+1:
+    if days_to_end < fish_timer:
         return 1
 
-    return calc_growth( 6, days_to_end-(fish_timer+1) ) + calc_growth( 8, days_to_end-(fish_timer+1) )
+    return calc_growth( 7, days_to_end-fish_timer ) + calc_growth( 9, days_to_end-fish_timer )
 
 
 def main() -> int:
@@ -19,7 +19,7 @@ def main() -> int:
         ]
 
     days_result = [
-        calc_growth(x, 256) for x in range(7)
+        calc_growth(x, 256) for x in range(1,8)
     ]
 
     print( sum(
