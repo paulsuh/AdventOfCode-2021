@@ -10,13 +10,6 @@ def main() -> int:
             int(x) for x in line.rstrip().split(",")
         ]
 
-    crabs_list.sort()
-
-    # print(crabs_list)
-
-    # counts_list = collections.Counter(crabs_list)
-    # print( counts_list )
-
     fuel_cost_list = [
         sum(
             [
@@ -28,10 +21,10 @@ def main() -> int:
     print(fuel_cost_list)
     print(min(fuel_cost_list))
 
-    med = statistics.median(crabs_list)
-    print( med )
+    mean = statistics.mean(crabs_list)
+    print( mean )
 
-    print( sum( [(abs(x-med)*(abs(x-med)+1))/2 for x in crabs_list] ) )
+    print( sum( [(abs(x-mean)*(abs(x-mean)+1))/2 for x in crabs_list] ) )
 
     return 0
 

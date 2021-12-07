@@ -10,23 +10,6 @@ def main() -> int:
             int(x) for x in line.rstrip().split(",")
         ]
 
-    crabs_list.sort()
-
-    # print(crabs_list)
-
-    counts_list = collections.Counter(crabs_list)
-    # print( counts_list )
-
-    fuel_cost_list = [
-        sum(
-            [
-                abs(start_pos-dest_pos) for start_pos in crabs_list
-            ]
-        ) for dest_pos in range(max(crabs_list))
-    ]
-
-    # print(fuel_cost_list)
-
     med = statistics.median(crabs_list)
     print( med )
 
