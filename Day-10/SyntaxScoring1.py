@@ -1,9 +1,16 @@
 import sys
 import fileinput
 
+closing_char_dict = {
+    "(": ")",
+    "[": "]",
+    "{": "}",
+    "<": ">",
+}
 
 def main() -> int:
 
+    global closing_char_dict
     scoring_dict = {
         ")": 3,
         "]": 57,
@@ -16,14 +23,10 @@ def main() -> int:
 
         line = line.rstrip()
         try:
-            if line[0] == "(":
-                remainder = dispatch_next_char(line[1:], ")")
-            elif line[0] == "[":
-                remainder = dispatch_next_char(line[1:], "]")
-            elif line[0] == "{":
-                remainder = dispatch_next_char(line[1:], "}")
-            elif line[0] == "<":
-                remainder = dispatch_next_char(line[1:], ">")
+            remainder = line
+            while len(remainder) > 0:
+                next_close_char = closing_char_dict.get(remainder[0], None)
+                remainder = dispatch_next_char(remainder[1:], next_close_char)
 
         except Exception as e:
             print(f"Corrupted line: {line} - Expected {e.args[0]}, but found {e.args[1]} instead.")
@@ -36,12 +39,7 @@ def main() -> int:
 
 def dispatch_next_char( input: str, current_chunk_close: str ) -> str:
 
-    closing_char_dict = {
-        "(": ")",
-        "[": "]",
-        "{": "}",
-        "<": ">",
-    }
+    global closing_char_dict
     remainder = input
 
     while len(remainder) > 0:
