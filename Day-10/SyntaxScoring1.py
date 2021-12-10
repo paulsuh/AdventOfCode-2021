@@ -34,59 +34,31 @@ def main() -> int:
     return 0
 
 
-def group_parens( input: str ) -> str:
-
-    # consume the open parens, then dispatch the next remainder
-    remainder = dispatch_next_char(input[1:], ")")
-
-    return remainder
-
-
-def group_square_brackets( input: str ) -> str:
-
-    # consume the open parens, then dispatch the next remainder
-    remainder = dispatch_next_char(input[1:], "]")
-
-    return remainder
-
-
-def group_curly_brackets( input: str ) -> str:
-
-    # consume the open parens, then dispatch the next remainder
-    remainder = dispatch_next_char(input[1:], "}")
-
-    return remainder
-
-
-def group_angle_brackets( input: str ) -> str:
-
-    # consume the open parens, then dispatch the next remainder
-    remainder = dispatch_next_char(input[1:], ">")
-
-    return remainder
-
-
-
 def dispatch_next_char( input: str, current_chunk_close: str ) -> str:
 
+    closing_char_dict = {
+        "(": ")",
+        "[": "]",
+        "{": "}",
+        "<": ">",
+    }
     remainder = input
 
     while len(remainder) > 0:
-        if remainder[0] == "(":
-            remainder = group_parens(remainder)
-        elif remainder[0] == "[":
-            remainder = group_square_brackets(remainder)
-        elif remainder[0] == "{":
-            remainder = group_curly_brackets(remainder)
-        elif remainder[0] == "<":
-            remainder = group_angle_brackets(remainder)
-        elif remainder[0] == current_chunk_close:
+
+        if remainder[0] == current_chunk_close:
+            # close out this chunk
             remainder = remainder[1:]
             return remainder
+
+        next_close_char = closing_char_dict.get(remainder[0], None)
+        if next_close_char is not None:
+            remainder = dispatch_next_char(remainder[1:], next_close_char)
         else:
             # bad close char
             raise Exception(current_chunk_close, remainder[0])
 
+    # made it all the way through, return empty string
     return ""
 
 
